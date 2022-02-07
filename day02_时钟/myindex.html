@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>day02时钟clock</title>
+    <style>
+        html{
+            background:royalblue url(https://unsplash.it/1500/1000?image=861&blur=5);
+            background-size: cover;
+            text-align: center;
+            font-size: 10px;
+        }
+        body{
+            margin: 0;
+            font-size: 2rem;
+            display: flex;
+            flex: 1;
+            min-height: 100vh;
+            align-items: center;
+        }
+        .clock{
+            width: 30rem;
+            height: 30rem;
+            border: 20px solid white;
+            border-radius: 50%;
+            margin: 50px auto;
+            position: relative;
+            padding: 2rem;
+            box-shadow: 
+                0 0 0 4px rgba(0, 0, 0, 0.1),
+                inset 0 0 0 3px #efefef,
+                inset 0 0 10px black,
+                0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        .clock-face{
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform: translateY(-3px);
+            text-align: center;
+        }
+        .hand{
+            width: 50%;
+            height: 6px;
+            position:absolute;
+            top: 50%;
+            transition: all .05s;
+            transform-origin: 100%; /*让旋转的中心在中间*/
+            transition-timing-function: cubic-bezier(0.42,0,0,34,1,82);
+            transform: rotate(90deg);
+        }
+        .hour-hand{ 
+            background: red;
+        }
+        .min-hand{
+            background: green;
+        }
+        .second-hand{
+            background: blue;
+        }
+        .showtime{
+            position: absolute;
+            top: 90%;
+            left: 47%;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="clock">
+        <div class="clock-face">
+            <div class="hand hour-hand"></div>
+            <div class="hand min-hand"></div>
+            <div class="hand second-hand"></div>
+        </div>
+    </div>
+    <div class="showtime"></div>
+    <script>
+        //获取要改变的指针，改变其transform
+        const secondHand = document.querySelector('.second-hand');
+        const minsHand = document.querySelector('.min-hand');
+        const hourHand = document.querySelector('.hour-hand');
+        //定时执行
+        function setDate(){
+            const now = new Date();  //获取当前时间
+            const seconds = now.getSeconds();  //获取当前秒
+            const secondsDegrees = (seconds*6) + 90;  //秒针旋转的角度
+            const min = now.getMinutes();
+            const minsDegrees = (min*6) + ((seconds/60)*6) + 90; //秒针动的时候分针也会跟着动一点
+            const hour = now.getHours();
+            const hourDegrees = (hour*30) + ((min/60)*30) + ((seconds/3600)*30) + 90;
+            //改变其transform
+            secondHand.style.transform = `rotate(${secondsDegrees}deg)`;
+            minsHand.style.transform = `rotate(${minsDegrees}deg)`;
+            hourHand.style.transform = `rotate(${hourDegrees}deg)`;
+            //console.log([now]) 不知道怎么获取可以打印对象寻找相应的属性
+            const showtime = document.querySelector('.showtime');
+            showtime.innerHTML = `${hour}:${min}:${seconds}`;
+        }
+
+        setInterval(setDate,1000);
+        setDate();  //解决一秒钟闪现的问题
+        
+    </script>
+</body>
+</html>
