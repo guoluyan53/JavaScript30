@@ -1,14 +1,3 @@
----
-title: 03 JS_CSS Variable
-catalog: true
-date: 2022-02-08 10:42:17
-excerpt: JavaScript30是 Wes Bos推出的一个 30 天挑战。项目免费提供了 30 个视频教程、30 个挑战的起始文档和 30 个挑战解决方案源代码。目的是帮助人们用纯 JavaScript 来写东西，不借助框架和库，也不使用编译器和引用。现在你看到的是这系列指南的第 3 篇。
-tags:
-- JavaScript30
-categories:
-- JavaScript30
----
-
 # 03 JS_CSS Variable 打卡指南
 
 > 作者：@sandystar
