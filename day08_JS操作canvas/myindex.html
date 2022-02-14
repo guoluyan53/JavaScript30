@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HTML5 Canvas</title>
+</head>
+<body>
+<canvas id="draw" width="800" height="800"></canvas>
+<script>
+    const canvas = document.querySelector('#draw');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+   //定义划线的一些属性
+    const ctx = canvas.getContext('2d');
+    console.log(ctx);
+    ctx.strokeStyle = '#BADA55';
+    ctx.lineJoin = 'round';  //起始形状设置为圆形
+    ctx.lineCap = 'round';   //结束形状也设置为圆形
+    ctx.lineWidth = 100;
+
+    //定义一个开关变量，判断是否开始画画
+    let isDrawing = false;
+    let lastX = 0;
+    let lastY = 0;
+    let hue = 0;
+    let direction = true;
+
+    function draw(e){
+        if(!isDrawing) return;
+        console.log(e);
+        ctx.strokeStyle = `hsl(${hue},100%,50%)`;
+        ctx.beginPath();
+        ctx.moveTo(lastX,lastY); //起始坐标
+        ctx.lineTo(e.offsetX,e.offsetY); //每次移动的当前做坐标
+        ctx.stroke();
+        [lastX,lastY] = [e.offsetX,e.offsetY]; //这样可以实现连续移动
+
+        hue++;
+        if(hue>=360){
+            hue = 0;
+        }
+        if(ctx.lineWidth >=100 || ctx.lineWidth <=1){
+            direction = !direction;
+        }
+        if(direction){
+            ctx.lineWidth++;
+        }else{
+            ctx.lineWidth--;
+        }
+    }
+
+    canvas.addEventListener('mousemove',draw);
+    canvas.addEventListener('mousedown',(e)=>{
+        isDrawing = true;
+        [lastX,lastY] = [e.offsetX,e.offsetY];  //改变起始的位置
+    });
+    canvas.addEventListener('mouseup',()=> isDrawing = false);
+    canvas.addEventListener('mouseout', ()=> isDrawing = false); //当鼠标超出屏幕时
+</script>
+
+<style>
+  html, body {
+    margin: 0;
+  }
+</style>
+
+</body>
+</html>
